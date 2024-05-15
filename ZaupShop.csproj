@@ -1,51 +1,49 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net35</TargetFrameworks>
+    <TargetFrameworks>net48</TargetFrameworks>
+	<LangVersion>10</LangVersion>
     <AssemblyName>ZaupShop</AssemblyName>
     <RootNamespace>ZaupShop</RootNamespace>
     <OutputType>Library</OutputType>
   </PropertyGroup> 
   <PropertyGroup>
     <PackageId>ZaupShop</PackageId>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageTags>RocketMod Unturned</PackageTags>
-    <PackageLicenseUrl>https://github.com/RocketModPlugins/ZaupShop/blob/master/LICENSE</PackageLicenseUrl>
-	<PackageAuthors>Zamirathe, Sven Mawby&lt;fr34kyn01535@bam.yt&gt;, Enes Sadık Özbek &lt;esozbek.me&gt;</PackageAuthors>
-    <PackageOwners>Zamirathe</PackageOwners>
+	<PackageAuthors>LeandroTheDev, Zamirathe, Sven Mawby&lt;fr34kyn01535@bam.yt&gt;, Enes Sadık Özbek &lt;esozbek.me&gt;</PackageAuthors>
+    <PackageOwners>LeandroTheDev</PackageOwners>
     <Version>1.0.0</Version>
 	<PackageVersion>1.0.0</PackageVersion>
-    <Authors>Zamirathe, Sven Mawby&lt;fr34kyn01535@bam.yt&gt;, Enes Sadık Özbek &lt;esozbek.me&gt;</Authors>
+    <Authors>LeandroTheDev, Zamirathe, Sven Mawby&lt;fr34kyn01535@bam.yt&gt;, Enes Sadık Özbek &lt;esozbek.me&gt;</Authors>
     <Description>Shop Rocket Plugin for Unturned 3.0.</Description>
-    <Copyright>Zamirathe</Copyright>
+    <Copyright>LeandroTheDev</Copyright>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Rocket.Core" Version="5.0.0.566">
-        <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-	</PackageReference>
-	<PackageReference Include="Rocket.Unturned" Version="5.0.0.162" />
-    <Reference Include="I18N">
-      <HintPath>lib\I18N.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>lib\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="I18N.West">
-      <HintPath>lib\I18N.West.dll</HintPath>
+    <Reference Include="com.rlabrecque.steamworks.net">
+      <HintPath>lib\com.rlabrecque.steamworks.net.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>lib\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="System.Management">
-      <HintPath>lib\System.Management.dll</HintPath>
+    <Reference Include="Rocket.API">
+      <HintPath>lib\Rocket.API.dll</HintPath>
     </Reference>
-	<Reference Include="System.Data">
-      <HintPath>lib\System.Data.dll</HintPath>
+    <Reference Include="Rocket.Core">
+      <HintPath>lib\Rocket.Core.dll</HintPath>
     </Reference>
-	<Reference Include="System.Transactions">
-      <HintPath>lib\System.Transactions.dll</HintPath>
+    <Reference Include="Rocket.Unturned">
+      <HintPath>lib\Rocket.Unturned.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>lib\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
     </Reference>	
   </ItemGroup> 
 </Project>
