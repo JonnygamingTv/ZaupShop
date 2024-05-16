@@ -84,68 +84,11 @@ namespace ZaupShop
             return mySqlConnection;
         }
 
-        public bool AddItem(int id, string name, decimal cost, bool change)
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                if (!change)
-                {
-                    mySqlCommand.CommandText = string.Concat("Insert into `", _zaupShop.Configuration.Instance.ItemShopTableName, "` (`id`, `itemname`, `cost`) VALUES ('", id.ToString(), "', '", name, "', '", cost.ToString(), "');");
-                }
-                else
-                {
-                    mySqlCommand.CommandText = string.Concat("update `", _zaupShop.Configuration.Instance.ItemShopTableName, "` set itemname='", name, "', cost='", cost.ToString(), "' where id='", id.ToString(), "';");
-                }
-                mySqlConnection.Open();
-                int affected = mySqlCommand.ExecuteNonQuery();
-                mySqlConnection.Close();
-                if (affected > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function AddItem, reason: {exception.Message}");
-                return false;
-            }
-        }
-
-        public bool AddVehicle(int id, string name, decimal cost, bool change)
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                if (!change)
-                {
-                    mySqlCommand.CommandText = string.Concat("Insert into `", _zaupShop.Configuration.Instance.VehicleShopTableName, "` (`id`, `vehiclename`, `cost`) VALUES ('", id.ToString(), "', '", name, "', '", cost.ToString(), "');");
-                }
-                else
-                {
-                    mySqlCommand.CommandText = string.Concat("update `", _zaupShop.Configuration.Instance.VehicleShopTableName, "` set vehiclename='", name, "', cost='", cost.ToString(), "' where id='", id.ToString(), "';");
-                }
-                mySqlConnection.Open();
-                int affected = mySqlCommand.ExecuteNonQuery();
-                mySqlConnection.Close();
-                if (affected > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function AddVehicle, reason: {exception.Message}");
-                return false;
-            }
-        }
-
+        /// <summary>
+        /// Get the item cost based on his id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public decimal GetItemCost(int id)
         {
             decimal num = new(0);
@@ -169,6 +112,11 @@ namespace ZaupShop
             return num;
         }
 
+        /// <summary>
+        /// Get the vehicle cost based on his id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public decimal GetVehicleCost(int id)
         {
             decimal num = new(0);
@@ -192,6 +140,11 @@ namespace ZaupShop
             return num;
         }
 
+        /// <summary>
+        /// Get the player uconomy balance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public decimal GetBalance(string id)
         {
             decimal num = new(0);
@@ -215,6 +168,11 @@ namespace ZaupShop
             return num;
         }
 
+        /// <summary>
+        /// Remove a specific amount of player balance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cost"></param>
         public void RemoveBalance(string id, decimal cost)
         {
             try
@@ -232,6 +190,11 @@ namespace ZaupShop
             }
         }
 
+        /// <summary>
+        /// Add a specific amount to the player balance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="quantity"></param>
         public void AddBalance(string id, decimal quantity)
         {
             try
@@ -249,78 +212,11 @@ namespace ZaupShop
             }
         }
 
-        public bool DeleteItem(int id)
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("delete from `", _zaupShop.Configuration.Instance.ItemShopTableName, "` where id='", id.ToString(), "';");
-                mySqlConnection.Open();
-                int affected = mySqlCommand.ExecuteNonQuery();
-                mySqlConnection.Close();
-                if (affected > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function DeleteItem, reason: {exception.Message}");
-                return false;
-            }
-        }
-
-        public bool DeleteVehicle(int id)
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("delete from `", _zaupShop.Configuration.Instance.VehicleShopTableName, "` where id='", id.ToString(), "';");
-                mySqlConnection.Open();
-                int affected = mySqlCommand.ExecuteNonQuery();
-                mySqlConnection.Close();
-                if (affected > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function DeleteVehicle, reason: {exception.Message}");
-                return false;
-            }
-        }
-
-        public bool SetBuyPrice(int id, decimal cost)
-        {
-            try
-            {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("update `", _zaupShop.Configuration.Instance.ItemShopTableName, "` set `buyback`='", cost.ToString(), "' where id='", id.ToString(), "';");
-                mySqlConnection.Open();
-                int affected = mySqlCommand.ExecuteNonQuery();
-                mySqlConnection.Close();
-                if (affected > 0)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function SetBuyPrice, reason: {exception.Message}");
-                return false;
-            }
-        }
-
+        /// <summary>
+        /// Get the sell price from the item id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public decimal GetItemBuyPrice(int id)
         {
             decimal num = new(0);
