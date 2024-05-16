@@ -31,7 +31,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console when trying to create or check existing table {_zaupShop.Configuration.Instance.ItemShopTableName}, reason: {exception.Message}");
             }
             try
             {
@@ -48,7 +48,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console when trying to create or check existing table {_zaupShop.Configuration.Instance.VehicleShopTableName}, reason: {exception.Message}");
             }
             try
             {
@@ -65,6 +65,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
+                Logger.LogError($"[ZaupShop] Database Crashed by Console when trying to create or check existing table {_zaupShop.Configuration.Instance.ItemShopTableName}, reason: {exception.Message}");
                 Logger.LogError($"Database Crashed, reason: {exception.Message}");
             }
         }
@@ -78,7 +79,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Instance Connection Database Crashed by Console, reason: {exception.Message}");
             }
             return mySqlConnection;
         }
@@ -109,7 +110,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function AddItem, reason: {exception.Message}");
                 return false;
             }
         }
@@ -140,7 +141,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function AddVehicle, reason: {exception.Message}");
                 return false;
             }
         }
@@ -163,7 +164,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetItemCost, reason: {exception.Message}");
             }
             return num;
         }
@@ -186,7 +187,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetVehicleCost, reason: {exception.Message}");
             }
             return num;
         }
@@ -198,7 +199,7 @@ namespace ZaupShop
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("select `balance` from `", _zaupShop.Configuration.Instance.UconomyTableName, "` where `id` = '", id, "';");
+                mySqlCommand.CommandText = string.Concat("select `balance` from `", _zaupShop.Configuration.Instance.UconomyTableName, "` where `steamId` = '", id, "';");
                 mySqlConnection.Open();
                 object obj = mySqlCommand.ExecuteScalar();
                 if (obj != null)
@@ -209,7 +210,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by {id} from function GetBalance, reason: {exception.Message}");
             }
             return num;
         }
@@ -220,14 +221,14 @@ namespace ZaupShop
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = $"update `{_zaupShop.Configuration.Instance.UconomyTableName}` set `balance` = `balance` - {cost} where `id` = {id};";
+                mySqlCommand.CommandText = $"update `{_zaupShop.Configuration.Instance.UconomyTableName}` set `balance` = `balance` - {cost} where `steamId` = {id};";
                 mySqlConnection.Open();
                 mySqlCommand.ExecuteNonQuery();
                 mySqlConnection.Close();
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed by {id}, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by {id} from function RemoveBalance, reason: {exception.Message}");
             }
         }
 
@@ -237,14 +238,14 @@ namespace ZaupShop
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = $"update `{_zaupShop.Configuration.Instance.UconomyTableName}` set `balance` = `balance` + {quantity} where `id` = {id};";
+                mySqlCommand.CommandText = $"update `{_zaupShop.Configuration.Instance.UconomyTableName}` set `balance` = `balance` + {quantity} where `steamId` = {id};";
                 mySqlConnection.Open();
                 mySqlCommand.ExecuteNonQuery();
                 mySqlConnection.Close();
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed by {id}, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by {id} from function AddBalance, reason: {exception.Message}");
             }
         }
 
@@ -267,7 +268,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function DeleteItem, reason: {exception.Message}");
                 return false;
             }
         }
@@ -291,7 +292,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function DeleteVehicle, reason: {exception.Message}");
                 return false;
             }
         }
@@ -315,7 +316,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function SetBuyPrice, reason: {exception.Message}");
                 return false;
             }
         }
@@ -338,7 +339,7 @@ namespace ZaupShop
             }
             catch (Exception exception)
             {
-                Logger.LogError($"Database Crashed, reason: {exception.Message}");
+                Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetItemBuyPrice, reason: {exception.Message}");
             }
             return num;
         }
