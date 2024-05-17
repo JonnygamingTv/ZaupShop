@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ZaupShop.Commands
 {
-    public class CommandBuy : IRocketCommand
+    public class Buy : IRocketCommand
     {
         public string Name => "buy";
 

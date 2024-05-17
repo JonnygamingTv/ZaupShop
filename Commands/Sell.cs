@@ -7,7 +7,7 @@ using SDG.Unturned;
 
 namespace ZaupShop.Commands
 {
-    public class CommandSell : IRocketCommand
+    public class Sell : IRocketCommand
     {
         public string Name => "sell";
 

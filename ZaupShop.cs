@@ -56,6 +56,7 @@ namespace ZaupShop
 
         public override void LoadPlugin()
         {
+            base.LoadPlugin();
             Database = new DatabaseMgr(this);
             instance = this;
             Logger.Log("Zaup Shop instanciated, restored by LeandroTheDev");
