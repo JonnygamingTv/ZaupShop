@@ -19,9 +19,18 @@ namespace ZaupShop.Commands
 
         public string Help => "Buy something";
 
-        public List<string> Permissions => new();
+        public List<string> Permissions
+        {
+            get
+            {
+                return new List<string>() { "zaupshop.buy" };
+            }
+        }
 
-        List<string> IRocketCommand.Aliases => new();
+        List<string> IRocketCommand.Aliases
+        {
+            get { return new List<string>(); }
+        }
 
         public void Execute(IRocketPlayer caller, string[] command)
         {

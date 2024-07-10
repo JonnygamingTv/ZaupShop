@@ -91,7 +91,7 @@ namespace ZaupShop
         /// <returns></returns>
         public decimal GetItemCost(int id)
         {
-            decimal num = new(0);
+            decimal num = 0;
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();
@@ -119,7 +119,7 @@ namespace ZaupShop
         /// <returns></returns>
         public decimal GetVehicleCost(int id)
         {
-            decimal num = new(0);
+            decimal num = 0;
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();
@@ -147,7 +147,7 @@ namespace ZaupShop
         /// <returns></returns>
         public decimal GetBalance(string id)
         {
-            decimal num = new(0);
+            decimal num = 0;
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();
@@ -219,7 +219,7 @@ namespace ZaupShop
         /// <returns></returns>
         public decimal GetItemBuyPrice(int id)
         {
-            decimal num = new(0);
+            decimal num = 0;
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();

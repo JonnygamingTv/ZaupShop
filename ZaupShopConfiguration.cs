@@ -4,23 +4,35 @@ namespace ZaupShop
 {
     public class ZaupShopConfiguration : IRocketPluginConfiguration
     {
-        public string DatabaseAddress = "127.0.0.1";
-        public string DatabaseName = "unturned";
-        public string DatabaseUsername = "admin";
-        public string DatabasePassword = "root";
-        public int DatabasePort = 3306;
-        public string ItemShopTableName = "uconomyitemshop";
-        public string VehicleShopTableName = "uconomyvehicleshop";
-        public string UconomyTableName = "uconomy";
-        public string UconomyCurrencyName = "Credits";
-        public bool CanBuyItems = true;
-        public bool CanBuyVehicles = false;
-        public bool CanSellItems = true;
-        public bool QualityCounts = true;
+        public string DatabaseAddress;
+        public string DatabaseName;
+        public string DatabaseUsername;
+        public string DatabasePassword;
+        public int DatabasePort;
+        public string ItemShopTableName;
+        public string VehicleShopTableName;
+        public string UconomyTableName;
+        public string UconomyCurrencyName;
+        public bool CanBuyItems;
+        public bool CanBuyVehicles;
+        public bool CanSellItems;
+        public bool QualityCounts;
 
         public void LoadDefaults()
         {
-
+            DatabaseAddress = "127.0.0.1";
+            DatabaseName = "unturned";
+            DatabaseUsername = "admin";
+            DatabasePassword = "root";
+            DatabasePort = 3306;
+            ItemShopTableName = "uconomyitemshop";
+            VehicleShopTableName = "uconomyvehicleshop";
+            UconomyTableName = "uconomy";
+            UconomyCurrencyName = "Credits";
+            CanBuyItems = true;
+            CanBuyVehicles = false;
+            CanSellItems = true;
+            QualityCounts = true;
         }
     }
 }

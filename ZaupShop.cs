@@ -1,4 +1,5 @@
-﻿using Rocket.API.Collections;
+﻿using Rocket.API;
+using Rocket.API.Collections;
 using Rocket.Core.Logging;
 using Rocket.Core.Plugins;
 
@@ -6,11 +7,15 @@ namespace ZaupShop
 {
     public class ZaupShop : RocketPlugin<ZaupShopConfiguration>
     {
-        static public ZaupShop instance;
+        static public ZaupShop instance = null;
         public DatabaseMgr Database;
-        public override TranslationList DefaultTranslations => new()
+        public override TranslationList DefaultTranslations
         {
-            {"commnad_error_null","Command is not launched by a player."},
+            get
+            {
+                return new TranslationList()
+                {
+                                {"commnad_error_null","Command is not launched by a player."},
             {"buy_not_safezone","You are not in safezone."},
             {"buy_command_usage","Usage: /buy [v.]<name or id> [amount] [quality of 25, 50, 75, or 100] (last 2 optional and only for items, default 1 amount, 100 quality)."},
             {"cost_command_usage","Usage: /cost [v.]<name or id>."},
@@ -52,14 +57,20 @@ namespace ZaupShop
             {"not_in_shop_to_set_buyback","{0} isn't in the shop so can't set a buyback price."},
             {"set_buyback_price","You set the buyback price for {0} to {1} in the shop."},
             {"invalid_shop_command","You entered an invalid shop command."}
-        };
+                };
+            }
+        }
 
-        public override void LoadPlugin()
+        protected override void Load()
         {
-            base.LoadPlugin();
             Database = new DatabaseMgr(this);
             instance = this;
-            Logger.Log("Zaup Shop instanciated, restored by LeandroTheDev");
+            Logger.Log("Loaded! Restored by LeandroTheDev");
+        }
+        protected override void Unload()
+        {
+            Database = null;
+            Rocket.Core.Logging.Logger.Log("Unloaded!");
         }
     }
 }

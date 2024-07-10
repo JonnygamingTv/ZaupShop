@@ -17,9 +17,18 @@ namespace ZaupShop.Commands
 
         public string Help => "Allows you to sell items to the shop from your inventory.";
 
-        public List<string> Aliases => new();
+        public List<string> Permissions
+        {
+            get
+            {
+                return new List<string>() { "zaupshop.sell" };
+            }
+        }
 
-        public List<string> Permissions => new();
+        List<string> IRocketCommand.Aliases
+        {
+            get { return new List<string>(); }
+        }
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
@@ -100,9 +109,9 @@ namespace ZaupShop.Commands
                 return;
             }
 
-            asset ??= (ItemAsset)Assets.find(EAssetType.ITEM, itemId);
+            asset = (ItemAsset)Assets.find(EAssetType.ITEM, itemId);
 
-            if (player.Inventory.has(itemId) == null)
+            if (player.Inventory.has(itemId) == null || asset == null)
             {
                 UnturnedChat.Say(caller, ZaupShop.instance.Translate("not_have_item_sell", asset.itemName));
                 return;
