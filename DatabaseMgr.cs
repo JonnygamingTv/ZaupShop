@@ -1,6 +1,7 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
 using Rocket.Core.Logging;
+using Steamworks;
 
 namespace ZaupShop
 {
@@ -157,6 +158,10 @@ namespace ZaupShop
         /// <returns></returns>
         public decimal GetBalance(string id)
         {
+            if (_zaupShop.Configuration.Instance.xpMode)
+            {
+                return (decimal)Rocket.Unturned.Player.UnturnedPlayer.FromCSteamID(new CSteamID(UInt64.Parse(id))).Experience;
+            }
             decimal num = 0;
             try
             {
@@ -185,6 +190,11 @@ namespace ZaupShop
         /// <param name="cost"></param>
         public void RemoveBalance(string id, decimal cost)
         {
+            if (_zaupShop.Configuration.Instance.xpMode)
+            {
+                Rocket.Unturned.Player.UnturnedPlayer.FromCSteamID(new CSteamID(UInt64.Parse(id))).Experience -= (uint)cost;
+                return;
+            }
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();
@@ -207,6 +217,11 @@ namespace ZaupShop
         /// <param name="quantity"></param>
         public void AddBalance(string id, decimal quantity)
         {
+            if (_zaupShop.Configuration.Instance.xpMode)
+            {
+                Rocket.Unturned.Player.UnturnedPlayer.FromCSteamID(new CSteamID(UInt64.Parse(id))).Experience += (uint)quantity;
+                return;
+            }
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();

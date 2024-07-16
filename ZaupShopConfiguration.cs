@@ -17,6 +17,7 @@ namespace ZaupShop
         public bool CanBuyVehicles;
         public bool CanSellItems;
         public bool QualityCounts;
+        public bool xpMode;
 
         public void LoadDefaults()
         {
@@ -33,6 +34,7 @@ namespace ZaupShop
             CanBuyVehicles = false;
             CanSellItems = true;
             QualityCounts = true;
+            xpMode = true;
         }
     }
 }
