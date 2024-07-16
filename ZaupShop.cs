@@ -69,6 +69,7 @@ namespace ZaupShop
         }
         protected override void Unload()
         {
+            Database.Close();
             Database = null;
             Rocket.Core.Logging.Logger.Log("Unloaded!");
         }
