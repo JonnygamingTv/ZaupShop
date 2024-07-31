@@ -9,7 +9,7 @@ Usage:
 /cost <i or v>.<item name or id>: Same as above but will display the user the cost of asked for item/vehicle.
 
 Requirements:
-- Uconomy
+- Uconomy (or xpMode)
 - Mysql
 
 # Building
