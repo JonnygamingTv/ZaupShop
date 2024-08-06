@@ -131,7 +131,7 @@ namespace ZaupShop.Commands
                         }
                         else
                         {
-                            Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("item_cost_msg", name, cost.ToString(CultureInfo.CurrentCulture), ZaupShop.instance.Configuration.Instance.UconomyTableName, bbp.ToString(CultureInfo.CurrentCulture), ZaupShop.instance.Configuration.Instance.UconomyTableName)));
+                            Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("item_cost_msg", name, cost.ToString(CultureInfo.CurrentCulture), ZaupShop.instance.Configuration.Instance.UconomyCurrencyName, bbp.ToString(CultureInfo.CurrentCulture), ZaupShop.instance.Configuration.Instance.UconomyCurrencyName)));
                         }
                         break;
                 }
