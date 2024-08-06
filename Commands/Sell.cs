@@ -89,7 +89,7 @@ namespace ZaupShop.Commands
                 ushort itemId;
                 if (command[0] != null)
                 {
-                    itemId = ushort.Parse(command[1].ToString());
+                    itemId = ushort.Parse(command[0].ToString());
                 }
                 else
                 {
