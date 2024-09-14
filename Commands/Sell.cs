@@ -87,16 +87,12 @@ namespace ZaupShop.Commands
 
                 ItemAsset asset = null;
                 ushort itemId;
-                if (command[0] != null)
-                {
-                    itemId = ushort.Parse(command[0].ToString());
-                }
-                else
+                if (command[0] == null)
                 {
                     Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("sell_command_usage")));
                     return;
                 }
-
+                if(!ushort.TryParse(command[0].ToString(), out itemId))
                 foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM).Cast<ItemAsset>())
                 {
                     if (vAsset?.itemName != null && vAsset.itemName.ToLower().Contains(command[0].ToLower()))

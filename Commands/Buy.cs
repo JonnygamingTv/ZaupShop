@@ -97,16 +97,12 @@ namespace ZaupShop.Commands
                         }
                         string name = null;
                         ushort vehicleId;
-                        if (command[1] != null)
-                        {
-                            vehicleId = ushort.Parse(command[1].ToString());
-                        }
-                        else
+                        if (components[1] == null || components[1] == string.Empty)
                         {
                             Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("buy_command_usage")));
                             return;
                         }
-
+                        if(!ushort.TryParse(components[1].ToString(), out vehicleId))
                         foreach (VehicleAsset vAsset in Assets.find(EAssetType.VEHICLE).Cast<VehicleAsset>())
                         {
                             if (vAsset?.vehicleName != null && vAsset.vehicleName.ToLower().Contains(components[1].ToLower()))
@@ -128,13 +124,12 @@ namespace ZaupShop.Commands
                         }
                         decimal cost = ZaupShop.instance.Database.GetVehicleCost(vehicleId);
 
-                        decimal balance = ZaupShop.instance.Database.GetBalance(player.Id);
-
                         if (cost <= 0m)
                         {
                             Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("vehicle_not_available", name)));
                             return;
                         }
+                        decimal balance = ZaupShop.instance.Database.GetBalance(player.Id);
                         if (balance < cost)
                         {
                             Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("not_enough_currency_msg", ZaupShop.instance.Configuration.Instance.UconomyCurrencyName, "1", name)));
@@ -162,16 +157,12 @@ namespace ZaupShop.Commands
                         }
                         name = null;
                         ushort itemId;
-                        if (command[0] != null)
-                        {
-                            itemId = ushort.Parse(command[0].ToString());
-                        }
-                        else
+                        if (command[0] == null)
                         {
                             Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("buy_command_usage")));
                             return;
                         }
-
+                        if(!ushort.TryParse(command[0].ToString(), out itemId))
                         foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM).Cast<ItemAsset>())
                         {
                             if (vAsset?.itemName != null && vAsset.itemName.ToLower().Contains(components[0].ToLower()))
