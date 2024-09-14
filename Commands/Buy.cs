@@ -104,12 +104,12 @@ namespace ZaupShop.Commands
                                 return;
                             }
                             if (!ushort.TryParse(components[1].ToString(), out vehicleId))
-                                foreach (VehicleAsset vAsset in Assets.find(EAssetType.VEHICLE).Cast<VehicleAsset>())
+                                foreach (VehicleRedirectorAsset vAsset in Assets.find(EAssetType.VEHICLE).Cast<VehicleRedirectorAsset>())
                                 {
-                                    if (vAsset?.vehicleName != null && vAsset.vehicleName.ToLower().Contains(components[1].ToLower()))
+                                    if (vAsset?.FriendlyName != null && vAsset.FriendlyName.ToLower().Contains(components[1].ToLower()))
                                     {
                                         vehicleId = vAsset.id;
-                                        name = vAsset.vehicleName;
+                                        name = vAsset.FriendlyName;
                                         break;
                                     }
                                 }
@@ -160,7 +160,7 @@ namespace ZaupShop.Commands
                             }
                             string name = null;
                             if (!ushort.TryParse(components[0].ToString(), out ushort itemId))
-                                foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM).Cast<ItemAsset>())
+                                foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM))
                                 {
                                     if (vAsset?.itemName != null && vAsset.itemName.ToLower().Contains(components[0].ToLower()))
                                     {
