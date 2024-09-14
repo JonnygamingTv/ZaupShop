@@ -159,10 +159,10 @@ namespace ZaupShop.Commands
                                 return;
                             }
                             string name = null;
-                            if (!ushort.TryParse(components[0].ToString(), out ushort itemId))
+                            if (!ushort.TryParse(command[0].ToString(), out ushort itemId))
                                 foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM))
                                 {
-                                    if (vAsset?.itemName != null && vAsset.itemName.ToLower().Contains(components[0].ToLower()))
+                                    if (vAsset?.itemName != null && vAsset.itemName.ToLower().Contains(command[0].ToLower()))
                                     {
                                         itemId = vAsset.id;
                                         name = vAsset.itemName;
@@ -171,7 +171,7 @@ namespace ZaupShop.Commands
                                 }
                             if (Assets.find(EAssetType.ITEM, itemId) == null)
                             {
-                                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("could_not_find", components[0])));
+                                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("could_not_find", command[0])));
                                 return;
                             }
                             else if (name == null && itemId != 0)
