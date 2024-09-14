@@ -98,7 +98,7 @@ namespace ZaupShop.Commands
                             }
                             string name = null;
                             ushort vehicleId;
-                            if (components[1] == null || components[1] == string.Empty)
+                            if (components.Length < 2 || components[1] == null || components[1] == string.Empty)
                             {
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("buy_command_usage")));
                                 return;
@@ -121,7 +121,7 @@ namespace ZaupShop.Commands
                             }
                             else if (name == null && vehicleId != 0)
                             {
-                                name = ((VehicleAsset)Assets.find(EAssetType.VEHICLE, vehicleId)).vehicleName;
+                                name = Assets.find(EAssetType.VEHICLE, vehicleId)?.FriendlyName;
                             }
                             decimal cost = ZaupShop.instance.Database.GetVehicleCost(vehicleId);
 
@@ -176,7 +176,7 @@ namespace ZaupShop.Commands
                             }
                             else if (name == null && itemId != 0)
                             {
-                                name = ((ItemAsset)Assets.find(EAssetType.ITEM, itemId)).itemName;
+                                name = Assets.find(EAssetType.ITEM, itemId)?.FriendlyName;
                             }
                             decimal cost = decimal.Round(ZaupShop.instance.Database.GetItemCost(itemId) * amttobuy, 2);
                             decimal balance = ZaupShop.instance.Database.GetBalance(player.Id);
