@@ -38,7 +38,7 @@ namespace ZaupShop.Commands
                 UnturnedPlayer player = caller as UnturnedPlayer ?? null;
                 if (player is null)
                 {
-                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("commnad_error_null")));
+                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("command_error_null")));
                     return;
                 }
 

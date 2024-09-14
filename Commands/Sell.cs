@@ -37,7 +37,7 @@ namespace ZaupShop.Commands
                 UnturnedPlayer player = caller as UnturnedPlayer ?? null;
                 if (player is null)
                 {
-                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("commnad_error_null")));
+                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("command_error_null")));
                     return;
                 }
 
@@ -64,7 +64,7 @@ namespace ZaupShop.Commands
                 //}
                 //#endregion
 
-                if (command.Length == 0 || command.Length > 0 && command[0].Trim() == string.Empty)
+                if (command.Length == 0 || command[0] == null || command.Length > 0 && command[0].Trim() == string.Empty)
                 {
                     Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("sell_command_usage")));
                     return;
@@ -87,11 +87,6 @@ namespace ZaupShop.Commands
 
                 ItemAsset asset = null;
                 ushort itemId;
-                if (command[0] == null)
-                {
-                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("sell_command_usage")));
-                    return;
-                }
                 if(!ushort.TryParse(command[0].ToString(), out itemId))
                 foreach (ItemAsset vAsset in Assets.find(EAssetType.ITEM).Cast<ItemAsset>())
                 {

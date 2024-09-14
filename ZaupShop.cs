@@ -15,7 +15,7 @@ namespace ZaupShop
             {
                 return new TranslationList()
                 {
-                                {"commnad_error_null","Command is not launched by a player."},
+                                {"command_error_null","Command is not launched by a player."},
             {"buy_not_safezone","You are not in safezone."},
             {"buy_command_usage","Usage: /buy [v.]<name or id> [amount] [quality of 25, 50, 75, or 100] (last 2 optional and only for items, default 1 amount, 100 quality)."},
             {"cost_command_usage","Usage: /cost [v.]<name or id>."},
