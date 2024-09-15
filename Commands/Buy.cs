@@ -169,14 +169,10 @@ namespace ZaupShop.Commands
                                         break;
                                     }
                                 }
-                            if (Assets.find(EAssetType.ITEM, itemId) == null)
+                            if (itemId == 0 || (name == null && ((name = Assets.find(EAssetType.ITEM, itemId)?.FriendlyName) == null || name == string.Empty)))
                             {
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("could_not_find", command[0])));
                                 return;
-                            }
-                            else if (name == null && itemId != 0)
-                            {
-                                name = Assets.find(EAssetType.ITEM, itemId)?.FriendlyName;
                             }
                             decimal cost = decimal.Round(ZaupShop.instance.Database.GetItemCost(itemId) * amttobuy, 2);
                             decimal balance = ZaupShop.instance.Database.GetBalance(player.Id);

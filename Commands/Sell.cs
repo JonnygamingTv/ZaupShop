@@ -145,7 +145,7 @@ namespace ZaupShop.Commands
                 {
                     case 1:
                         // These are single items, not ammo or magazines
-                        while (amttosell > 0)
+                        while (amttosell > 0 && list.Count != 0)
                         {
                             if (ZaupShop.instance.Configuration.Instance.QualityCounts)
                                 quality = list[0].jar.item.durability;
@@ -159,7 +159,7 @@ namespace ZaupShop.Commands
                     default:
                         // This is ammo or magazines
                         byte amttosell1 = amttosell;
-                        while (amttosell > 0)
+                        while (amttosell > 0 && list.Count != 0)
                         {
                             if (list[0].jar.item.amount >= amttosell)
                             {
@@ -176,10 +176,11 @@ namespace ZaupShop.Commands
                             else
                             {
                                 amttosell -= list[0].jar.item.amount;
+                                InventorySearch InvSearch = list[0];
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
                                 {
-                                    player.Inventory.sendUpdateAmount(list[0].page, list[0].jar.x, list[0].jar.y, 0);
-                                    player.Inventory.removeItem(list[0].page, player.Inventory.getIndex(list[0].page, list[0].jar.x, list[0].jar.y));
+                                    player.Inventory.sendUpdateAmount(InvSearch.page, InvSearch.jar.x, InvSearch.jar.y, 0);
+                                    player.Inventory.removeItem(InvSearch.page, player.Inventory.getIndex(InvSearch.page, InvSearch.jar.x, InvSearch.jar.y));
                                 });
                                 list.RemoveAt(0);
                             }
