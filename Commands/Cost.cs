@@ -41,9 +41,13 @@ namespace ZaupShop.Commands
                     Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("command_error_null")));
                     return;
                 }
-
+                if (command.Length == 0 || command[0].Trim() == string.Empty)
+                {
+                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("cost_command_usage")));
+                    return;
+                }
                 string[] components = Parser.getComponentsFromSerial(command[0], '.');
-                if (command.Length == 0 || components.Length == 0 || components.Length == 2 && components[0].Trim() != "v" || components.Length == 1 && components[0].Trim() == "v" || components.Length > 2 || command[0].Trim() == string.Empty)
+                if (components.Length == 0 || components.Length == 2 && components[0].Trim() != "v" || components.Length == 1 && components[0].Trim() == "v" || components.Length > 2)
                 {
                     Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => UnturnedChat.Say(caller, ZaupShop.instance.Translate("cost_command_usage")));
                     return;
