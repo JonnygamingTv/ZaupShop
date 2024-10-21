@@ -9,6 +9,9 @@ namespace ZaupShop
     {
         static public ZaupShop instance = null;
         public DatabaseMgr Database;
+        public System.Collections.Generic.Dictionary<ushort, XML.Structs.Item> Items;
+        public System.Collections.Generic.Dictionary<ushort, XML.Structs.Vehicle> Vehicles;
+        public System.Collections.Generic.Dictionary<System.Guid, XML.Structs.Vehicle> VehiclesGuid;
         public override TranslationList DefaultTranslations
         {
             get
@@ -37,7 +40,7 @@ namespace ZaupShop
             {"not_have_item_sell","I'm sorry, but you don't have any {0} to sell."},
             {"not_enough_items_sell","I'm sorry, but you don't have {0} {1} to sell."},
             {"not_enough_ammo_sell","I'm sorry, but you don't have enough ammo in {0} to sell."},
-            {"sold_items","You have sold {0} {1} to the shop and receive {2} {3} in return.  Your balance is now {4} {5}."},
+            {"sold_items","You have sold {0} {1} to the shop and received {2} {3} in return. Your balance is now {4} {5}."},
             {"no_sell_price_set","The shop is not buying {0} right now"},
             {"no_itemid_given","An itemid is required."},
             {"no_cost_given","A cost is required."},
@@ -66,6 +69,24 @@ namespace ZaupShop
             Database = new DatabaseMgr(this);
             instance = this;
             Logger.Log("Loaded! Restored by LeandroTheDev");
+            Items = new System.Collections.Generic.Dictionary<ushort, XML.Structs.Item>();
+            Vehicles = new System.Collections.Generic.Dictionary<ushort, XML.Structs.Vehicle>();
+            VehiclesGuid = new System.Collections.Generic.Dictionary<System.Guid, XML.Structs.Vehicle>();
+            foreach(XML.Structs.Item Item in Configuration.Instance.Items)
+            {
+                Items.Add(Item.Id, Item);
+            }
+            foreach(XML.Structs.Vehicle Veh in Configuration.Instance.Vehicles)
+            {
+                if(Veh.Guid != null && Veh.Guid != string.Empty)
+                {
+                    VehiclesGuid.Add(System.Guid.Parse(Veh.Guid), Veh);
+                }
+                else if(Veh.Id != 0)
+                {
+                    Vehicles.Add(Veh.Id, Veh);
+                }
+            }
         }
         protected override void Unload()
         {

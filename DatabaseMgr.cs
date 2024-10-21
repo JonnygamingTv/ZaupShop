@@ -85,7 +85,7 @@ namespace ZaupShop
             if(_mySqlConnection == null || _mySqlConnection.State != System.Data.ConnectionState.Open)
             try
             {
-                _mySqlConnection = new MySqlConnection(string.Format("SERVER={0};DATABASE={1};UID={2};PASSWORD={3};PORT={4};", _zaupShop.Configuration.Instance.DatabaseAddress, _zaupShop.Configuration.Instance.DatabaseName, _zaupShop.Configuration.Instance.DatabaseUsername, _zaupShop.Configuration.Instance.DatabasePassword, _zaupShop.Configuration.Instance.DatabasePort));
+                _mySqlConnection = new MySqlConnection(string.Format("SERVER={0};PORT={1};DATABASE={2};UID={3};PASSWORD={4};", _zaupShop.Configuration.Instance.DatabaseAddress, _zaupShop.Configuration.Instance.DatabasePort, _zaupShop.Configuration.Instance.DatabaseName, _zaupShop.Configuration.Instance.DatabaseUsername, _zaupShop.Configuration.Instance.DatabasePassword));
                 _mySqlConnection.Open();
             }
             catch (Exception exception)
@@ -96,24 +96,43 @@ namespace ZaupShop
         }
 
         /// <summary>
-        /// Get the item cost based on his id
+        /// Get the item cost based on id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public decimal GetItemCost(int id)
+        {
+            return GetItemCost(id.ToString());
+        }
+        public decimal GetItemCost(ushort id)
+        {
+            switch (ZaupShop.instance.Configuration.Instance.ShopType)
+            {
+                case XML.enums.SaveType.XML:
+                    {
+                        if (ZaupShop.instance.Items.TryGetValue(id, out XML.Structs.Item val))
+                        {
+                            return val.Cost;
+                        }
+                        else return 0;
+                    }
+            }
+            return GetItemCost(id.ToString());
+        }
+        public decimal GetItemCost(string id)
         {
             decimal num = 0;
             try
             {
                 MySqlConnection mySqlConnection = CreateConnection();
                 MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("select `cost` from `", _zaupShop.Configuration.Instance.ItemShopTableName, "` where `id` = '", id.ToString(), "';");
+                mySqlCommand.CommandText = string.Concat("select `cost` from `", _zaupShop.Configuration.Instance.ItemShopTableName, "` where `id` = '", id, "';");
                 //mySqlConnection.Open();
-                object obj = mySqlCommand.ExecuteScalar();
-                if (obj != null)
-                {
-                    decimal.TryParse(obj.ToString(), out num);
-                }
+                                object obj = mySqlCommand.ExecuteScalar();
+                                if (obj != null)
+                                {
+                                    decimal.TryParse(Convert.ToString(obj), out num);
+                                }
                 //mySqlConnection.Close();
             }
             catch (Exception exception)
@@ -124,29 +143,60 @@ namespace ZaupShop
         }
 
         /// <summary>
-        /// Get the vehicle cost based on his id
+        /// Get the vehicle cost based on id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         public decimal GetVehicleCost(int id)
         {
             decimal num = 0;
-            try
+            switch (ZaupShop.instance.Configuration.Instance.ShopType)
             {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("select `cost` from `", _zaupShop.Configuration.Instance.VehicleShopTableName, "` where `id` = '", id.ToString(), "';");
-                //mySqlConnection.Open();
-                object obj = mySqlCommand.ExecuteScalar();
-                if (obj != null)
-                {
-                    decimal.TryParse(obj.ToString(), out num);
-                }
-                //mySqlConnection.Close();
+                case XML.enums.SaveType.XML:
+                    {
+                        if (ZaupShop.instance.Vehicles.TryGetValue((ushort)id, out XML.Structs.Vehicle val))
+                        {
+                            num = val.Cost;
+                        }
+                        break;
+                    }
+                case XML.enums.SaveType.MySQL:
+                    {
+                        try
+                        {
+                            MySqlConnection mySqlConnection = CreateConnection();
+                            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+                            mySqlCommand.CommandText = string.Concat("select `cost` from `", _zaupShop.Configuration.Instance.VehicleShopTableName, "` where `id` = '", id.ToString(), "';");
+                            //mySqlConnection.Open();
+                            object obj = mySqlCommand.ExecuteScalar();
+                            if (obj != null)
+                            {
+                                decimal.TryParse(obj.ToString(), out num);
+                            }
+                            //mySqlConnection.Close();
+                        }
+                        catch (Exception exception)
+                        {
+                            Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetVehicleCost, reason: {exception.Message}");
+                        }
+                        break;
+                    }
             }
-            catch (Exception exception)
+            return num;
+        }
+        public decimal GetVehicleCost(System.Guid Guid)
+        {
+            decimal num = 0;
+            switch (ZaupShop.instance.Configuration.Instance.ShopType)
             {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetVehicleCost, reason: {exception.Message}");
+                case XML.enums.SaveType.XML:
+                    {
+                        if (ZaupShop.instance.VehiclesGuid.TryGetValue(Guid, out XML.Structs.Vehicle val))
+                        {
+                            num = val.Cost;
+                        }
+                        break;
+                    }
             }
             return num;
         }
@@ -245,22 +295,37 @@ namespace ZaupShop
         public decimal GetItemBuyPrice(int id)
         {
             decimal num = 0;
-            try
+            switch (ZaupShop.instance.Configuration.Instance.ShopType)
             {
-                MySqlConnection mySqlConnection = CreateConnection();
-                MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
-                mySqlCommand.CommandText = string.Concat("select `buyback` from `", _zaupShop.Configuration.Instance.ItemShopTableName, "` where `id` = '", id.ToString(), "';");
-                //mySqlConnection.Open();
-                object obj = mySqlCommand.ExecuteScalar();
-                if (obj != null)
-                {
-                    decimal.TryParse(obj.ToString(), out num);
-                }
-                //mySqlConnection.Close();
-            }
-            catch (Exception exception)
-            {
-                Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetItemBuyPrice, reason: {exception.Message}");
+                case XML.enums.SaveType.XML:
+                    {
+                        if (ZaupShop.instance.Items.TryGetValue((ushort)id, out XML.Structs.Item val))
+                        {
+                            num = val.SellPrice;
+                        }
+                        break;
+                    }
+                case XML.enums.SaveType.MySQL:
+                    {
+                        try
+                        {
+                            MySqlConnection mySqlConnection = CreateConnection();
+                            MySqlCommand mySqlCommand = mySqlConnection.CreateCommand();
+                            mySqlCommand.CommandText = string.Concat("select `buyback` from `", _zaupShop.Configuration.Instance.ItemShopTableName, "` where `id` = '", id.ToString(), "';");
+                            //mySqlConnection.Open();
+                            object obj = mySqlCommand.ExecuteScalar();
+                            if (obj != null)
+                            {
+                                decimal.TryParse(obj.ToString(), out num);
+                            }
+                            //mySqlConnection.Close();
+                        }
+                        catch (Exception exception)
+                        {
+                            Logger.LogError($"[ZaupShop] Database Crashed by Console from function GetItemBuyPrice, reason: {exception.Message}");
+                        }
+                        break;
+                    }
             }
             return num;
         }

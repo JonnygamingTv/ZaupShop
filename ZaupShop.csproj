@@ -37,8 +37,8 @@
     <Reference Include="com.rlabrecque.steamworks.net">
       <HintPath>..\..\..\SteamLibrary\steamapps\common\Unturned\Unturned_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data.8.0.25.0">
-      <HintPath>..\..\..\downloads\MySql.Data.8.0.25.0.dll</HintPath>
+    <Reference Include="MySql.Data.v9.0.0.0">
+      <HintPath>..\..\..\downloads\MySql.Data.v9.0.0.0.dll</HintPath>
     </Reference>
     <Reference Include="Rocket.API">
       <HintPath>..\..\..\SteamLibrary\steamapps\common\Unturned\Extras\Rocket.Unturned\Rocket.API.dll</HintPath>
@@ -51,6 +51,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,10 +69,13 @@
     <Compile Include="Commands\Buy.cs" />
     <Compile Include="Commands\Cost.cs" />
     <Compile Include="Commands\Sell.cs" />
+    <Compile Include="XML\enums.cs" />
+    <Compile Include="XML\Structs.cs" />
     <Compile Include="ZaupShop.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ZaupShopConfiguration.cs" />
     <Compile Include="DatabaseMgr.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

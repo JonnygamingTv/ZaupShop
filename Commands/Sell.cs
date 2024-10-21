@@ -192,7 +192,7 @@ namespace ZaupShop.Commands
 
                 ZaupShop.instance.Database.AddBalance(player.Id, addmoney);
                 decimal balance = ZaupShop.instance.Database.GetBalance(player.Id);
-                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("sold_items", amt, asset.itemName, addmoney, ZaupShop.instance.Database.GetBalance(player.Id), balance, ZaupShop.instance.Database.GetBalance(player.Id))));
+                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("sold_items", amt, asset.itemName, addmoney, ZaupShop.instance.Configuration.Instance.UconomyCurrencyName, balance, ZaupShop.instance.Configuration.Instance.UconomyCurrencyName)));
             });
         }
     }
