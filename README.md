@@ -10,7 +10,7 @@ Usage:
 
 Requirements:
 - Uconomy (or xpMode)
-- Mysql
+- Mysql (Broken, supports XML within the configuration file though)
 
 # Building
 
