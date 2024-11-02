@@ -151,7 +151,8 @@ namespace ZaupShop.Commands
                                 quality = list[0].jar.item.durability;
                             peritemprice = decimal.Round(price * (quality / 100.0m), 2);
                             addmoney += peritemprice;
-                            Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(list[0].page, player.Inventory.getIndex(list[0].page, list[0].jar.x, list[0].jar.y)));
+                            InventorySearch tmp = list[0];
+                            Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y)));
                             list.RemoveAt(0);
                             amttosell--;
                         }
@@ -161,26 +162,26 @@ namespace ZaupShop.Commands
                         byte amttosell1 = amttosell;
                         while (amttosell > 0 && list.Count != 0)
                         {
+                            InventorySearch tmp = list[0];
                             if (list[0].jar.item.amount >= amttosell)
                             {
                                 byte left = (byte)(list[0].jar.item.amount - amttosell);
                                 list[0].jar.item.amount = left;
-                                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.sendUpdateAmount(list[0].page, list[0].jar.x, list[0].jar.y, left));
+                                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.sendUpdateAmount(tmp.page, tmp.jar.x, tmp.jar.y, left));
                                 amttosell = 0;
                                 if (left == 0)
                                 {
-                                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(list[0].page, player.Inventory.getIndex(list[0].page, list[0].jar.x, list[0].jar.y)));
+                                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y)));
                                     list.RemoveAt(0);
                                 }
                             }
                             else
                             {
                                 amttosell -= list[0].jar.item.amount;
-                                InventorySearch InvSearch = list[0];
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
                                 {
-                                    player.Inventory.sendUpdateAmount(InvSearch.page, InvSearch.jar.x, InvSearch.jar.y, 0);
-                                    player.Inventory.removeItem(InvSearch.page, player.Inventory.getIndex(InvSearch.page, InvSearch.jar.x, InvSearch.jar.y));
+                                    player.Inventory.sendUpdateAmount(tmp.page, tmp.jar.x, tmp.jar.y, 0);
+                                    player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y));
                                 });
                                 list.RemoveAt(0);
                             }
