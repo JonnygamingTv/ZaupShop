@@ -32,15 +32,15 @@ namespace ZaupShop.Commands
 
         public async void Execute(IRocketPlayer caller, string[] command)
         {
+            UnturnedPlayer player = caller as UnturnedPlayer ?? null;
+            if (player is null)
+            {
+                UnturnedChat.Say(caller, ZaupShop.instance.Translate("command_error_null"));
+                return;
+            }
+            player.Player.equipment.dequip();
             await System.Threading.Tasks.Task.Run(() =>
             {
-                UnturnedPlayer player = caller as UnturnedPlayer ?? null;
-                if (player is null)
-                {
-                    Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>UnturnedChat.Say(caller, ZaupShop.instance.Translate("command_error_null")));
-                    return;
-                }
-
                 //#region tarned
                 //// In tarned context you can sell only in certain locations
                 //var position = player.Position;
@@ -147,13 +147,13 @@ namespace ZaupShop.Commands
                         // These are single items, not ammo or magazines
                         while (amttosell > 0 && list.Count != 0)
                         {
+                            InventorySearch tmp = list[list.Count-1];
                             if (ZaupShop.instance.Configuration.Instance.QualityCounts)
-                                quality = list[0].jar.item.durability;
+                                quality = tmp.jar.item.durability;
                             peritemprice = decimal.Round(price * (quality / 100.0m), 2);
                             addmoney += peritemprice;
-                            InventorySearch tmp = list[0];
                             Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y)));
-                            list.RemoveAt(0);
+                            list.RemoveAt(list.Count-1);
                             amttosell--;
                         }
                         break;
@@ -162,28 +162,28 @@ namespace ZaupShop.Commands
                         byte amttosell1 = amttosell;
                         while (amttosell > 0 && list.Count != 0)
                         {
-                            InventorySearch tmp = list[0];
-                            if (list[0].jar.item.amount >= amttosell)
+                            InventorySearch tmp = list[list.Count-1];
+                            if (tmp.jar.item.amount >= amttosell)
                             {
-                                byte left = (byte)(list[0].jar.item.amount - amttosell);
-                                list[0].jar.item.amount = left;
+                                byte left = (byte)(tmp.jar.item.amount - amttosell);
+                                tmp.jar.item.amount = left;
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.sendUpdateAmount(tmp.page, tmp.jar.x, tmp.jar.y, left));
                                 amttosell = 0;
                                 if (left == 0)
                                 {
                                     Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() => player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y)));
-                                    list.RemoveAt(0);
+                                    list.RemoveAt(list.Count-1);
                                 }
                             }
                             else
                             {
-                                amttosell -= list[0].jar.item.amount;
+                                amttosell -= tmp.jar.item.amount;
                                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
                                 {
                                     player.Inventory.sendUpdateAmount(tmp.page, tmp.jar.x, tmp.jar.y, 0);
                                     player.Inventory.removeItem(tmp.page, player.Inventory.getIndex(tmp.page, tmp.jar.x, tmp.jar.y));
                                 });
-                                list.RemoveAt(0);
+                                list.RemoveAt(list.Count-1);
                             }
                         }
                         peritemprice = decimal.Round(price * (amttosell1 / (decimal)asset.amount), 2);
